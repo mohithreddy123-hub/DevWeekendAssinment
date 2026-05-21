@@ -9,22 +9,17 @@ export const validateBill = (billStr) => {
     return { isValid: true, message: '' }; // Normal empty state
   }
   
-  if (billStr === '.' || billStr === '-') {
-    return { isValid: true, message: '' }; // Allow intermediate typing states
+  // Allow intermediate typing states
+  if (billStr === '.' || billStr === '-' || billStr === '-.') {
+    return { isValid: true, message: '' };
   }
   
   const bill = parseFloat(billStr);
-  if (isNaN(bill)) {
-    return { isValid: false, message: 'Please enter a valid number' };
-  }
-  if (bill < 0) {
-    return { isValid: false, message: 'Bill amount cannot be negative' };
-  }
-  if (bill === 0) {
-    return { isValid: false, message: 'Bill amount must be greater than ₹0' };
+  if (isNaN(bill) || bill <= 0) {
+    return { isValid: false, message: '❌ Bill amount must be greater than 0' };
   }
   if (bill > 10000000) { // Max ₹1 Crore for safety
-    return { isValid: false, message: 'Bill amount exceeds maximum limit (₹1,00,00,000)' };
+    return { isValid: false, message: '❌ Bill amount exceeds maximum limit (₹1,00,00,000)' };
   }
   
   return { isValid: true, message: '' };
@@ -41,19 +36,14 @@ export const validateTip = (tipStr) => {
     return { isValid: true, message: '' };
   }
   
-  if (tipStr === '.' || tipStr === '-') {
-    return { isValid: true, message: '' }; // Allow intermediate typing states
+  // Allow intermediate typing states
+  if (tipStr === '.' || tipStr === '-' || tipStr === '-.') {
+    return { isValid: true, message: '' };
   }
   
   const tip = parseFloat(tipStr);
-  if (isNaN(tip)) {
-    return { isValid: false, message: 'Please enter a valid percentage' };
-  }
-  if (tip < 0) {
-    return { isValid: false, message: 'Tip cannot be negative' };
-  }
-  if (tip > 100) {
-    return { isValid: false, message: 'Tip percentage cannot exceed 100%' };
+  if (isNaN(tip) || tip < 0 || tip > 100) {
+    return { isValid: false, message: '❌ Tip percentage must be between 0 and 100' };
   }
   
   return { isValid: true, message: '' };
@@ -70,23 +60,29 @@ export const validatePeople = (peopleStr) => {
     return { isValid: true, message: '' }; // Normal empty state
   }
   
+  // Allow intermediate typing states
+  if (peopleStr === '-') {
+    return { isValid: true, message: '' };
+  }
+  
   // Checks for decimal point
   if (peopleStr.includes('.')) {
-    return { isValid: false, message: 'Number of people must be a whole number' };
+    const val = parseFloat(peopleStr);
+    if (!isNaN(val) && val < 1) {
+      return { isValid: false, message: '❌ Number of people must be at least 1' };
+    }
+    return { isValid: false, message: '❌ Number of people must be a whole number' };
   }
   
   const peopleVal = parseFloat(peopleStr);
-  if (isNaN(peopleVal)) {
-    return { isValid: false, message: 'Please enter a valid number' };
-  }
-  if (peopleVal < 1) {
-    return { isValid: false, message: 'Must be at least 1 person' };
+  if (isNaN(peopleVal) || peopleVal < 1) {
+    return { isValid: false, message: '❌ Number of people must be at least 1' };
   }
   if (!Number.isInteger(peopleVal)) {
-    return { isValid: false, message: 'Must be a whole number' };
+    return { isValid: false, message: '❌ Number of people must be a whole number' };
   }
   if (peopleVal > 10000) { // Limit for safety
-    return { isValid: false, message: 'Number of people exceeds maximum limit (10,000)' };
+    return { isValid: false, message: '❌ Number of people exceeds maximum limit (10,000)' };
   }
   
   return { isValid: true, message: '' };

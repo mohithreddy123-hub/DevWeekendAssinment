@@ -33,6 +33,9 @@ export const formatCurrency = (value) => {
 export const sanitizeInputString = (val) => {
   if (typeof val !== 'string') return '';
   
+  // Check if it starts with a minus sign to allow negative values (like -100)
+  const hasMinus = val.startsWith('-');
+  
   // Remove any character that is not a digit or decimal point
   let cleaned = val.replace(/[^0-9.]/g, '');
   
@@ -43,6 +46,11 @@ export const sanitizeInputString = (val) => {
   } else if (parts.length === 2) {
     // Restrict to max 2 decimal places
     cleaned = `${parts[0]}.${parts[1].slice(0, 2)}`;
+  }
+  
+  // Restore the leading minus sign if it was present
+  if (hasMinus) {
+    cleaned = '-' + cleaned;
   }
   
   return cleaned;
