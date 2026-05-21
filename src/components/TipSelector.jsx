@@ -60,10 +60,10 @@ export const TipSelector = ({
             className={`w-full pl-4 pr-10 py-3 bg-slate-900/60 border rounded-xl text-left text-sm font-semibold text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950 transition-all duration-200 ${
               customValue
                 ? error
-                  ? 'border-rose-500/80 focus:border-rose-500 focus:ring-rose-500/20'
+                  ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20'
                   : 'border-indigo-500 focus:border-indigo-500 focus:ring-indigo-500/20'
                 : error
-                  ? 'border-rose-500/80 focus:border-rose-500 focus:ring-rose-500/20'
+                  ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20'
                   : 'border-slate-800 focus:border-indigo-500 focus:ring-indigo-500/20'
             }`}
             aria-invalid={!!error}
@@ -77,11 +77,10 @@ export const TipSelector = ({
         <p
           id="tip-error"
           role="alert"
-          className={`text-xs text-rose-400 font-semibold flex items-center gap-1 transition-all duration-250 ease-out ${
+          className={`text-xs text-rose-400 font-semibold flex items-center transition-all duration-250 ease-out ${
             error ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1 pointer-events-none'
           }`}
         >
-          {error && <span aria-hidden="true">⚠️</span>}
           {error}
         </p>
       </div>

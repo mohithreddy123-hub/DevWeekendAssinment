@@ -30,7 +30,7 @@ export const BillInput = ({ value, onChange, onBlur, error }) => {
           onBlur={onBlur}
           className={`w-full pl-12 pr-4 py-3.5 bg-slate-900/60 border rounded-xl text-slate-100 placeholder:text-slate-600 font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950 transition-all duration-200 ${
             error 
-              ? 'border-rose-500/80 focus:border-rose-500 focus:ring-rose-500/20' 
+              ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' 
               : 'border-slate-800 focus:border-indigo-500 focus:ring-indigo-500/20'
           }`}
           aria-invalid={!!error}
@@ -43,11 +43,10 @@ export const BillInput = ({ value, onChange, onBlur, error }) => {
         <p 
           id="bill-error" 
           role="alert"
-          className={`text-xs text-rose-400 font-semibold flex items-center gap-1 transition-all duration-250 ease-out ${
+          className={`text-xs text-rose-400 font-semibold flex items-center transition-all duration-250 ease-out ${
             error ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1 pointer-events-none'
           }`}
         >
-          {error && <span aria-hidden="true">⚠️</span>}
           {error}
         </p>
       </div>

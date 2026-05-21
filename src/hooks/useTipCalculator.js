@@ -91,13 +91,21 @@ export const useTipCalculator = () => {
 
   // Handle number of people change
   const handlePeopleChange = (value) => {
-    // Only allow positive integers (no decimals, no letters)
-    const sanitized = value.replace(/[^0-9]/g, '');
-    setPeople(sanitized);
+    // Allow digits, one decimal point, and a leading minus sign temporarily while typing
+    const hasMinus = value.startsWith('-');
+    let cleaned = value.replace(/[^0-9.]/g, '');
+    const parts = cleaned.split('.');
+    if (parts.length > 2) {
+      cleaned = `${parts[0]}.${parts.slice(1).join('')}`;
+    }
+    if (hasMinus) {
+      cleaned = '-' + cleaned;
+    }
+    setPeople(cleaned);
     
     if (peopleTimeoutRef.current) clearTimeout(peopleTimeoutRef.current);
     
-    const validation = validatePeople(sanitized);
+    const validation = validatePeople(cleaned);
     if (validation.isValid) {
       setErrors((prev) => ({ ...prev, people: '' }));
     } else {

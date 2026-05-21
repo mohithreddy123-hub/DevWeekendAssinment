@@ -9,20 +9,18 @@
 export const calculateTipAndSplit = (bill, tipPercent, people) => {
   const b = parseFloat(bill);
   const t = parseFloat(tipPercent);
-  const p = parseInt(people, 10);
+  const p = parseFloat(people); // parse as float to check for integers
   
-  // If inputs are not valid numbers, default to 0
-  const cleanBill = isNaN(b) || b < 0 ? 0 : b;
-  const cleanTipPercent = isNaN(t) || t < 0 ? 0 : t;
+  // If inputs are not valid numbers or exceed bounds, default to 0
+  const cleanBill = isNaN(b) || b <= 0 ? 0 : b;
+  const cleanTipPercent = isNaN(t) || t < 0 || t > 100 ? 0 : t;
+  const cleanPeople = isNaN(p) || p < 1 || !Number.isInteger(p) ? 0 : p;
   
   // Calculation of total tip and grand total
   const totalTip = (cleanBill * cleanTipPercent) / 100;
   const grandTotal = cleanBill + totalTip;
   
   // Split calculations
-  // If people input is empty, invalid, or 0, default per person share to 0 to prevent Infinity
-  const cleanPeople = isNaN(p) || p < 1 ? 0 : p;
-  
   const perPersonShare = cleanPeople > 0 ? grandTotal / cleanPeople : 0;
   const perPersonTip = cleanPeople > 0 ? totalTip / cleanPeople : 0;
   
