@@ -19,7 +19,6 @@ export const PeopleInput = ({ value, onChange, onBlur, error }) => {
             aria-hidden="true"
           />
         </div>
-        
         <input
           id="people-input"
           type="text"

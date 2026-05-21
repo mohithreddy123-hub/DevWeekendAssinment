@@ -72,3 +72,17 @@ npm run build
 1.  **Multi-Currency Selector:** A dropdown menu allowing users to swap currencies, automatically adjusting formatting symbols.
 2.  **Custom Split Splitting:** Currently, the bill is split equally among all people. A future release would allow users to assign unequal shares to individual guests (e.g., guest A ordered ₹800, guest B ordered ₹400).
 3.  **Local Storage Cache:** Save calculations locally or share the split calculation details via an exportable URL query parameter or QR code.
+
+---
+
+## 6. Rounding Policy Defense
+
+### Selected Policy: Round to Nearest (Half-Even / Bankers' Rounding)
+*   **Implementation:** The application utilizes standard `Intl.NumberFormat('en-IN')` configuration, which formats values to two decimal places (paise) and uses half-even rounding (IEEE 754 standard).
+*   **Defense of Choice:**
+    1.  **Mathematical Unbiasedness:** Half-even rounding (also known as Bankers' Rounding) rounds to the nearest even number when the digit to be rounded is exactly 5. This prevents the cumulative upward rounding bias that occurs with standard "always round up" or "always round half up" policies.
+    2.  **User Expectation:** Casual bill splitting is a collaborative process. If a bill of ₹10.00 is split among 3 people, it is mathematically ₹3.333... per person. Our rounding policy formats this to **₹3.33** per person. While this leaves a negligible remainder of ₹0.01 underpaid to the bill payer, it represents the most natural, readable, and expected human split.
+    3.  **Alternative Comparison:**
+        *   *Round Up (Ceil):* If we rounded up (resulting in ₹3.34 per person), the total collected would be ₹10.02, causing a minor overpayment. Users are often annoyed when a calculator claims they owe more than the mathematically calculated share.
+        *   *Remainder Distribution:* Distributing the remainder across people (e.g. person 1 pays ₹3.34, persons 2 and 3 pay ₹3.33) is highly complex to communicate in a simple, clean single-page outcome card, creating unnecessary visual noise for a negligible ₹0.01 difference.
+    4.  **Graceful Presentation:** By rounding to 2 decimal places using `Intl.NumberFormat`, the app ensures consistent, clean, and professional monetary displays across all inputs without visual glitches.

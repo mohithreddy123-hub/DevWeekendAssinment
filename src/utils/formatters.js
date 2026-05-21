@@ -10,7 +10,6 @@ export const formatCurrency = (value) => {
     return '₹0.00';
   }
   
-  // Format to INR currency standard (e.g. ₹1,23,456.78)
   try {
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
@@ -19,7 +18,7 @@ export const formatCurrency = (value) => {
       maximumFractionDigits: 2,
     }).format(value);
   } catch {
-    // Fallback if Intl is not fully supported or throws
+   
     return `₹${Number(value).toFixed(2)}`;
   }
 };
@@ -33,13 +32,11 @@ export const formatCurrency = (value) => {
 export const sanitizeInputString = (val) => {
   if (typeof val !== 'string') return '';
   
-  // Check if it starts with a minus sign to allow negative values (like -100)
+  
   const hasMinus = val.startsWith('-');
   
   // Remove any character that is not a digit or decimal point
   let cleaned = val.replace(/[^0-9.]/g, '');
-  
-  // Prevent multiple decimal points (keep only the first one)
   const parts = cleaned.split('.');
   if (parts.length > 2) {
     cleaned = `${parts[0]}.${parts.slice(1).join('')}`;
@@ -48,7 +45,7 @@ export const sanitizeInputString = (val) => {
     cleaned = `${parts[0]}.${parts[1].slice(0, 2)}`;
   }
   
-  // Restore the leading minus sign if it was present
+  
   if (hasMinus) {
     cleaned = '-' + cleaned;
   }
