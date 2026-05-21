@@ -25,19 +25,24 @@ function App() {
   } = useTipCalculator();
 
   return (
-    <div className="min-h-screen w-full bg-[#030712] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(99,102,241,0.15),rgba(255,255,255,0))] flex flex-col justify-between p-4 sm:p-6 md:p-12">
+    <div className="min-h-screen w-full bg-slate-50 flex flex-col justify-between p-4 sm:p-6 md:p-12 relative overflow-hidden">
+      {/* Ambient background glow blobs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-br from-indigo-200/30 to-purple-200/30 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-tr from-cyan-200/20 to-emerald-200/20 blur-3xl pointer-events-none" />
+      <div className="absolute top-[40%] right-[15%] w-[300px] h-[300px] rounded-full bg-rose-100/30 blur-3xl pointer-events-none" />
+
       {/* Header */}
-      <header className="w-full max-w-4xl mx-auto flex items-center justify-center gap-2 mb-8 md:mb-12">
-        <div className="bg-indigo-600/10 p-2.5 rounded-xl border border-indigo-500/20 text-indigo-400">
-          <Calculator className="h-6 w-6" />
+      <header className="w-full max-w-4xl mx-auto flex items-center justify-center gap-2 mb-8 md:mb-12 relative z-10">
+        <div className="bg-white/80 p-2.5 rounded-xl border border-slate-200/80 text-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.12)] backdrop-blur-md">
+          <Calculator className="h-5 w-5 md:h-6 md:w-6" />
         </div>
-        <h1 className="text-xl md:text-2xl font-black text-slate-100 tracking-wider uppercase bg-clip-text text-transparent bg-gradient-to-r from-slate-100 via-indigo-200 to-indigo-400">
-          SPLIT<span className="text-indigo-500">WISELY</span>
+        <h1 className="text-xl md:text-2xl font-black text-slate-900 tracking-wider uppercase">
+          SPLIT<span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">WISELY</span>
         </h1>
       </header>
 
       {/* Main Container Card */}
-      <main className="w-full max-w-4xl mx-auto bg-slate-950/40 border border-slate-900 rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl backdrop-blur-md flex-grow flex flex-col justify-center">
+      <main className="w-full max-w-4xl mx-auto bg-white/70 border border-white/80 rounded-3xl p-6 sm:p-8 md:p-10 shadow-[0_20px_50px_rgba(15,23,42,0.04)] backdrop-blur-xl flex-grow flex flex-col justify-center relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-stretch">
           {/* Left Column: Inputs */}
           <section className="flex flex-col justify-between gap-6" aria-label="Calculator Inputs">
@@ -79,8 +84,8 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="w-full max-w-4xl mx-auto text-center mt-8 md:mt-12">
-        <p className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-wider uppercase">
+      <footer className="w-full max-w-4xl mx-auto text-center mt-8 md:mt-12 relative z-10">
+        <p className="text-[10px] sm:text-xs text-slate-400 font-semibold tracking-wider uppercase">
           SplitWisely Tip Calculator &bull; Built By Mohith Reddy
         </p>
       </footer>

@@ -14,7 +14,7 @@ export const TipSelector = ({
     <div className="w-full flex flex-col" role="group" aria-labelledby="tip-label">
       <span 
         id="tip-label"
-        className="text-xs font-bold text-slate-400 tracking-wider uppercase mb-2"
+        className="text-xs font-bold text-slate-500/90 tracking-wider uppercase mb-2"
       >
         Select Tip %
       </span>
@@ -28,10 +28,10 @@ export const TipSelector = ({
               type="button"
               onClick={() => onPresetSelect(percent)}
               aria-pressed={isActive}
-              className={`py-3 px-2 rounded-xl font-semibold text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 cursor-pointer ${
+              className={`py-3 px-2 rounded-xl font-semibold text-sm transition-all duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-500/10 cursor-pointer border ${
                 isActive
-                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 ring-2 ring-indigo-500'
-                  : 'bg-slate-900/40 border border-slate-800 text-slate-300 hover:bg-slate-800/60 hover:text-white focus-visible:ring-indigo-500/20'
+                  ? 'bg-slate-900 text-white shadow-md shadow-slate-900/10 border-slate-900'
+                  : 'bg-slate-100/60 hover:bg-slate-200/50 text-slate-700 border-slate-200/40 hover:text-slate-900'
               }`}
             >
               {percent}%
@@ -44,7 +44,7 @@ export const TipSelector = ({
           <div className="absolute inset-y-0 right-3.5 flex items-center pointer-events-none">
             <Percent 
               className={`h-3.5 w-3.5 transition-colors duration-200 ${
-                error ? 'text-rose-500' : 'text-slate-500 group-focus-within:text-indigo-400'
+                error ? 'text-rose-500' : 'text-slate-400 group-focus-within:text-indigo-600'
               }`} 
               aria-hidden="true"
             />
@@ -57,14 +57,14 @@ export const TipSelector = ({
             onChange={(e) => onCustomChange(e.target.value)}
             onBlur={onCustomBlur}
             aria-label="Custom tip percentage"
-            className={`w-full pl-4 pr-10 py-3 bg-slate-900/60 border rounded-xl text-left text-sm font-semibold text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950 transition-all duration-200 ${
+            className={`w-full pl-4 pr-10 py-3 bg-slate-50/50 hover:bg-slate-50/80 focus:bg-white border rounded-xl text-left text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none transition-all duration-200 ${
               customValue
                 ? error
-                  ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20'
-                  : 'border-indigo-500 focus:border-indigo-500 focus:ring-indigo-500/20'
+                  ? 'border-rose-400 focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10'
+                  : 'border-indigo-500 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10'
                 : error
-                  ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20'
-                  : 'border-slate-800 focus:border-indigo-500 focus:ring-indigo-500/20'
+                  ? 'border-rose-400 focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10'
+                  : 'border-slate-200/80 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10'
             }`}
             aria-invalid={!!error}
             aria-describedby={error ? "tip-error" : undefined}
@@ -77,7 +77,7 @@ export const TipSelector = ({
         <p
           id="tip-error"
           role="alert"
-          className={`text-xs text-rose-400 font-semibold flex items-center transition-all duration-250 ease-out ${
+          className={`text-xs text-rose-600 font-semibold flex items-center transition-all duration-250 ease-out ${
             error ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1 pointer-events-none'
           }`}
         >
