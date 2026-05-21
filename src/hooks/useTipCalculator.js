@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { sanitizeInputString } from '../utils/formatters';
 import { validateBill, validateTip, validatePeople } from '../utils/validators';
 import { calculateTipAndSplit } from '../utils/calculations';
@@ -16,17 +16,48 @@ export const useTipCalculator = () => {
     people: ''
   });
 
+  // Timeout references for debounced validation
+  const billTimeoutRef = useRef(null);
+  const tipTimeoutRef = useRef(null);
+  const peopleTimeoutRef = useRef(null);
+
+  const clearTimeouts = () => {
+    if (billTimeoutRef.current) clearTimeout(billTimeoutRef.current);
+    if (tipTimeoutRef.current) clearTimeout(tipTimeoutRef.current);
+    if (peopleTimeoutRef.current) clearTimeout(peopleTimeoutRef.current);
+  };
+
+  // Clean up timeouts on unmount
+  useEffect(() => {
+    return () => clearTimeouts();
+  }, []);
+
   // Handle bill amount change
   const handleBillChange = (value) => {
     const sanitized = sanitizeInputString(value);
     setBill(sanitized);
     
+    if (billTimeoutRef.current) clearTimeout(billTimeoutRef.current);
+    
     const validation = validateBill(sanitized);
+    if (validation.isValid) {
+      setErrors((prev) => ({ ...prev, bill: '' }));
+    } else {
+      billTimeoutRef.current = setTimeout(() => {
+        setErrors((prev) => ({ ...prev, bill: validation.message }));
+      }, 600);
+    }
+  };
+
+  const handleBillBlur = () => {
+    if (billTimeoutRef.current) clearTimeout(billTimeoutRef.current);
+    const validation = validateBill(bill);
     setErrors((prev) => ({ ...prev, bill: validation.message }));
   };
 
   // Handle preset tip selection
   const handlePresetTip = (percent) => {
+    if (tipTimeoutRef.current) clearTimeout(tipTimeoutRef.current);
     setCustomTip(''); // Clear custom field
     setTipPercent(percent.toString());
     
@@ -40,7 +71,21 @@ export const useTipCalculator = () => {
     setCustomTip(sanitized);
     setTipPercent(sanitized);
     
+    if (tipTimeoutRef.current) clearTimeout(tipTimeoutRef.current);
+    
     const validation = validateTip(sanitized);
+    if (validation.isValid) {
+      setErrors((prev) => ({ ...prev, tip: '' }));
+    } else {
+      tipTimeoutRef.current = setTimeout(() => {
+        setErrors((prev) => ({ ...prev, tip: validation.message }));
+      }, 600);
+    }
+  };
+
+  const handleCustomTipBlur = () => {
+    if (tipTimeoutRef.current) clearTimeout(tipTimeoutRef.current);
+    const validation = validateTip(customTip);
     setErrors((prev) => ({ ...prev, tip: validation.message }));
   };
 
@@ -50,12 +95,27 @@ export const useTipCalculator = () => {
     const sanitized = value.replace(/[^0-9]/g, '');
     setPeople(sanitized);
     
+    if (peopleTimeoutRef.current) clearTimeout(peopleTimeoutRef.current);
+    
     const validation = validatePeople(sanitized);
+    if (validation.isValid) {
+      setErrors((prev) => ({ ...prev, people: '' }));
+    } else {
+      peopleTimeoutRef.current = setTimeout(() => {
+        setErrors((prev) => ({ ...prev, people: validation.message }));
+      }, 600);
+    }
+  };
+
+  const handlePeopleBlur = () => {
+    if (peopleTimeoutRef.current) clearTimeout(peopleTimeoutRef.current);
+    const validation = validatePeople(people);
     setErrors((prev) => ({ ...prev, people: validation.message }));
   };
 
   // Reset all states
   const handleReset = () => {
+    clearTimeouts();
     setBill('');
     setTipPercent('');
     setCustomTip('');
@@ -94,9 +154,12 @@ export const useTipCalculator = () => {
     calculations,
     canReset,
     handleBillChange,
+    handleBillBlur,
     handlePresetTip,
     handleCustomTipChange,
+    handleCustomTipBlur,
     handlePeopleChange,
+    handlePeopleBlur,
     handleReset
   };
 };

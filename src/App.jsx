@@ -15,9 +15,12 @@ function App() {
     calculations,
     canReset,
     handleBillChange,
+    handleBillBlur,
     handlePresetTip,
     handleCustomTipChange,
+    handleCustomTipBlur,
     handlePeopleChange,
+    handlePeopleBlur,
     handleReset,
   } = useTipCalculator();
 
@@ -42,6 +45,7 @@ function App() {
               <BillInput 
                 value={bill} 
                 onChange={handleBillChange} 
+                onBlur={handleBillBlur}
                 error={errors.bill} 
               />
               
@@ -50,12 +54,14 @@ function App() {
                 customValue={customTip} 
                 onPresetSelect={handlePresetTip} 
                 onCustomChange={handleCustomTipChange} 
+                onCustomBlur={handleCustomTipBlur}
                 error={errors.tip} 
               />
               
               <PeopleInput 
                 value={people} 
                 onChange={handlePeopleChange} 
+                onBlur={handlePeopleBlur}
                 error={errors.people} 
               />
             </div>
@@ -75,7 +81,7 @@ function App() {
       {/* Footer */}
       <footer className="w-full max-w-4xl mx-auto text-center mt-8 md:mt-12">
         <p className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-wider uppercase">
-          SplitWisely Tip Calculator &bull; Built with React &amp; Tailwind CSS
+          SplitWisely Tip Calculator &bull; Built By Mohith Reddy
         </p>
       </footer>
     </div>

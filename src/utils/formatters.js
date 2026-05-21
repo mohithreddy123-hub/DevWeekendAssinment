@@ -40,7 +40,11 @@ export const sanitizeInputString = (val) => {
   const parts = cleaned.split('.');
   if (parts.length > 2) {
     cleaned = `${parts[0]}.${parts.slice(1).join('')}`;
+  } else if (parts.length === 2) {
+    // Restrict to max 2 decimal places
+    cleaned = `${parts[0]}.${parts[1].slice(0, 2)}`;
   }
   
   return cleaned;
 };
+

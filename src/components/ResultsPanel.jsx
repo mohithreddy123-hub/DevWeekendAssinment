@@ -1,5 +1,6 @@
 import { formatCurrency } from '../utils/formatters';
 import { ResetButton } from './ResetButton';
+import { AnimatedNumber } from './AnimatedNumber';
 
 export const ResultsPanel = ({ calculations, onReset, canReset }) => {
   const { totalTip, grandTotal, perPersonShare } = calculations;
@@ -10,7 +11,7 @@ export const ResultsPanel = ({ calculations, onReset, canReset }) => {
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div className="flex flex-col gap-6 md:gap-8 z-10">
+      <div className="flex flex-col gap-6 md:gap-8 z-10" aria-live="polite" aria-atomic="true">
         {/* Total Tip Row */}
         <div className="flex justify-between items-center">
           <div className="flex flex-col">
@@ -19,7 +20,7 @@ export const ResultsPanel = ({ calculations, onReset, canReset }) => {
           </div>
           <div className="text-right">
             <span className="text-xl md:text-2xl font-bold text-indigo-400 font-mono tracking-tight transition-all duration-300">
-              {formatCurrency(totalTip)}
+              <AnimatedNumber value={totalTip} format={formatCurrency} />
             </span>
           </div>
         </div>
@@ -32,7 +33,7 @@ export const ResultsPanel = ({ calculations, onReset, canReset }) => {
           </div>
           <div className="text-right">
             <span className="text-xl md:text-2xl font-bold text-slate-100 font-mono tracking-tight transition-all duration-300">
-              {formatCurrency(grandTotal)}
+              <AnimatedNumber value={grandTotal} format={formatCurrency} />
             </span>
           </div>
         </div>
@@ -48,7 +49,7 @@ export const ResultsPanel = ({ calculations, onReset, canReset }) => {
           </div>
           <div className="text-right">
             <span className="text-2xl md:text-3xl font-extrabold text-emerald-400 font-mono tracking-tight drop-shadow-[0_0_12px_rgba(52,211,153,0.15)]">
-              {formatCurrency(perPersonShare)}
+              <AnimatedNumber value={perPersonShare} format={formatCurrency} />
             </span>
           </div>
         </div>

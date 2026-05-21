@@ -9,6 +9,10 @@ export const validateBill = (billStr) => {
     return { isValid: true, message: '' }; // Normal empty state
   }
   
+  if (billStr === '.' || billStr === '-') {
+    return { isValid: true, message: '' }; // Allow intermediate typing states
+  }
+  
   const bill = parseFloat(billStr);
   if (isNaN(bill)) {
     return { isValid: false, message: 'Please enter a valid number' };
@@ -35,6 +39,10 @@ export const validateBill = (billStr) => {
 export const validateTip = (tipStr) => {
   if (!tipStr || tipStr.trim() === '') {
     return { isValid: true, message: '' };
+  }
+  
+  if (tipStr === '.' || tipStr === '-') {
+    return { isValid: true, message: '' }; // Allow intermediate typing states
   }
   
   const tip = parseFloat(tipStr);
