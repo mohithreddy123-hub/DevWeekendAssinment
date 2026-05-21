@@ -26,10 +26,13 @@ function App() {
 
   return (
     <div className="min-h-screen w-full bg-slate-50 flex flex-col justify-between p-4 sm:p-6 md:p-12 relative overflow-hidden">
+      {/* Premium ambient noise/grain texture */}
+      <div className="noise-overlay" />
+
       {/* Ambient background glow blobs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-br from-indigo-200/30 to-purple-200/30 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-tr from-cyan-200/20 to-emerald-200/20 blur-3xl pointer-events-none" />
-      <div className="absolute top-[40%] right-[15%] w-[300px] h-[300px] rounded-full bg-rose-100/30 blur-3xl pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-br from-indigo-200/30 to-purple-200/30 blur-3xl pointer-events-none animate-float-1" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-tr from-cyan-200/20 to-emerald-200/20 blur-3xl pointer-events-none animate-float-2" />
+      <div className="absolute top-[40%] right-[15%] w-[300px] h-[300px] rounded-full bg-rose-100/30 blur-3xl pointer-events-none animate-float-3" />
 
       {/* Header */}
       <header className="w-full max-w-4xl mx-auto flex items-center justify-center gap-2 mb-8 md:mb-12 relative z-10">
@@ -41,45 +44,47 @@ function App() {
         </h1>
       </header>
 
-      {/* Main Container Card */}
-      <main className="w-full max-w-4xl mx-auto bg-white/70 border border-white/80 rounded-3xl p-6 sm:p-8 md:p-10 shadow-[0_20px_50px_rgba(15,23,42,0.04)] backdrop-blur-xl flex-grow flex flex-col justify-center relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-stretch">
-          {/* Left Column: Inputs */}
-          <section className="flex flex-col justify-between gap-6" aria-label="Calculator Inputs">
-            <div className="flex flex-col gap-6">
-              <BillInput 
-                value={bill} 
-                onChange={handleBillChange} 
-                onBlur={handleBillBlur}
-                error={errors.bill} 
-              />
-              
-              <TipSelector 
-                activeTip={tipPercent} 
-                customValue={customTip} 
-                onPresetSelect={handlePresetTip} 
-                onCustomChange={handleCustomTipChange} 
-                onCustomBlur={handleCustomTipBlur}
-                error={errors.tip} 
-              />
-              
-              <PeopleInput 
-                value={people} 
-                onChange={handlePeopleChange} 
-                onBlur={handlePeopleBlur}
-                error={errors.people} 
-              />
-            </div>
-          </section>
+      {/* Main Container Card (Double-layered nested container for edge refraction gradient) */}
+      <main className="w-full max-w-4xl mx-auto rounded-3xl p-[1.5px] bg-gradient-to-br from-white via-white/50 to-slate-200/60 shadow-[0_30px_70px_rgba(15,23,42,0.04),0_1px_3px_rgba(0,0,0,0.01),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-2xl flex-grow flex flex-col justify-center relative z-10 hover:shadow-[0_40px_80px_rgba(15,23,42,0.06)] transition-all duration-500">
+        <div className="w-full bg-white/70 rounded-[23px] p-6 sm:p-8 md:p-10 flex-grow flex flex-col justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-stretch">
+            {/* Left Column: Inputs */}
+            <section className="flex flex-col justify-between gap-6" aria-label="Calculator Inputs">
+              <div className="flex flex-col gap-6">
+                <BillInput 
+                  value={bill} 
+                  onChange={handleBillChange} 
+                  onBlur={handleBillBlur}
+                  error={errors.bill} 
+                />
+                
+                <TipSelector 
+                  activeTip={tipPercent} 
+                  customValue={customTip} 
+                  onPresetSelect={handlePresetTip} 
+                  onCustomChange={handleCustomTipChange} 
+                  onCustomBlur={handleCustomTipBlur}
+                  error={errors.tip} 
+                />
+                
+                <PeopleInput 
+                  value={people} 
+                  onChange={handlePeopleChange} 
+                  onBlur={handlePeopleBlur}
+                  error={errors.people} 
+                />
+              </div>
+            </section>
 
-          {/* Right Column: Results Panel */}
-          <section className="h-full" aria-label="Calculation Results">
-            <ResultsPanel 
-              calculations={calculations} 
-              onReset={handleReset} 
-              canReset={canReset} 
-            />
-          </section>
+            {/* Right Column: Results Panel */}
+            <section className="h-full" aria-label="Calculation Results">
+              <ResultsPanel 
+                calculations={calculations} 
+                onReset={handleReset} 
+                canReset={canReset} 
+              />
+            </section>
+          </div>
         </div>
       </main>
 

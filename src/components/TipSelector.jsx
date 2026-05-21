@@ -28,10 +28,10 @@ export const TipSelector = ({
               type="button"
               onClick={() => onPresetSelect(percent)}
               aria-pressed={isActive}
-              className={`py-3 px-2 rounded-xl font-semibold text-sm transition-all duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-500/10 cursor-pointer border ${
+              className={`py-3 px-2 rounded-xl font-semibold text-sm transition-all duration-300 ease-spring cursor-pointer border hover:-translate-y-0.5 active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-500/15 ${
                 isActive
-                  ? 'bg-slate-900 text-white shadow-md shadow-slate-900/10 border-slate-900'
-                  : 'bg-slate-100/60 hover:bg-slate-200/50 text-slate-700 border-slate-200/40 hover:text-slate-900'
+                  ? 'bg-slate-900 text-white shadow-[0_10px_20px_-8px_rgba(15,23,42,0.3)] border-slate-900'
+                  : 'bg-slate-100/60 hover:bg-slate-200/50 hover:border-slate-300/60 text-slate-700 border-slate-200/40 hover:text-slate-900 hover:shadow-[0_4px_12px_-4px_rgba(15,23,42,0.03)]'
               }`}
             >
               {percent}%
@@ -43,7 +43,7 @@ export const TipSelector = ({
         <div className="relative group col-span-2 sm:col-span-1 md:col-span-2">
           <div className="absolute inset-y-0 right-3.5 flex items-center pointer-events-none">
             <Percent 
-              className={`h-3.5 w-3.5 transition-colors duration-200 ${
+              className={`h-3.5 w-3.5 transition-all duration-300 ease-out group-focus-within:scale-110 ${
                 error ? 'text-rose-500' : 'text-slate-400 group-focus-within:text-indigo-600'
               }`} 
               aria-hidden="true"
@@ -57,14 +57,14 @@ export const TipSelector = ({
             onChange={(e) => onCustomChange(e.target.value)}
             onBlur={onCustomBlur}
             aria-label="Custom tip percentage"
-            className={`w-full pl-4 pr-10 py-3 bg-slate-50/50 hover:bg-slate-50/80 focus:bg-white border rounded-xl text-left text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none transition-all duration-200 ${
+            className={`w-full pl-4 pr-10 py-3 bg-slate-50/30 hover:bg-slate-100/40 focus:bg-white border rounded-xl text-left text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none transition-all duration-300 ease-out ${
               customValue
                 ? error
-                  ? 'border-rose-400 focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10'
-                  : 'border-indigo-500 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10'
+                  ? 'border-rose-300 focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 focus:shadow-[0_0_20px_-3px_rgba(244,63,94,0.08)]'
+                  : 'border-indigo-500 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 focus:shadow-[0_0_20px_-3px_rgba(99,102,241,0.08)]'
                 : error
-                  ? 'border-rose-400 focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10'
-                  : 'border-slate-200/80 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10'
+                  ? 'border-rose-300 focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 focus:shadow-[0_0_20px_-3px_rgba(244,63,94,0.08)]'
+                  : 'border-slate-200/60 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 focus:shadow-[0_0_20px_-3px_rgba(99,102,241,0.08)]'
             }`}
             aria-invalid={!!error}
             aria-describedby={error ? "tip-error" : undefined}

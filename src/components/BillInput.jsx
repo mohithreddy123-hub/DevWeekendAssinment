@@ -13,7 +13,7 @@ export const BillInput = ({ value, onChange, onBlur, error }) => {
       <div className="relative group">
         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
           <IndianRupee 
-            className={`h-5 w-5 transition-colors duration-200 ${
+            className={`h-5 w-5 transition-all duration-300 ease-out group-focus-within:scale-105 ${
               error ? 'text-rose-500' : 'text-slate-400 group-focus-within:text-indigo-600'
             }`} 
             aria-hidden="true"
@@ -28,10 +28,10 @@ export const BillInput = ({ value, onChange, onBlur, error }) => {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onBlur={onBlur}
-          className={`w-full pl-12 pr-4 py-3.5 bg-slate-50/50 hover:bg-slate-50/80 focus:bg-white border rounded-xl text-slate-900 placeholder:text-slate-400 font-semibold focus:outline-none transition-all duration-200 ${
+          className={`w-full pl-12 pr-4 py-3.5 bg-slate-50/30 hover:bg-slate-100/40 focus:bg-white border rounded-xl text-slate-900 placeholder:text-slate-400 font-semibold focus:outline-none transition-all duration-300 ease-out ${
             error 
-              ? 'border-rose-400 focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10' 
-              : 'border-slate-200/80 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10'
+              ? 'border-rose-300 focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 focus:shadow-[0_0_20px_-3px_rgba(244,63,94,0.08)]' 
+              : 'border-slate-200/60 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 focus:shadow-[0_0_20px_-3px_rgba(99,102,241,0.08)]'
           }`}
           aria-invalid={!!error}
           aria-describedby={error ? "bill-error" : undefined}
