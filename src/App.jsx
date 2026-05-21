@@ -3,7 +3,7 @@ import { BillInput } from './components/BillInput';
 import { TipSelector } from './components/TipSelector';
 import { PeopleInput } from './components/PeopleInput';
 import { ResultsPanel } from './components/ResultsPanel';
-import { Calculator } from 'lucide-react';
+import { BrandLogo } from './components/BrandLogo';
 
 function App() {
   const {
@@ -36,8 +36,8 @@ function App() {
 
       {/* Header */}
       <header className="w-full max-w-4xl mx-auto flex items-center justify-center gap-2 mb-8 md:mb-12 relative z-10">
-        <div className="bg-white/80 p-2.5 rounded-xl border border-slate-200/80 text-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.12)] backdrop-blur-md">
-          <Calculator className="h-5 w-5 md:h-6 md:w-6" />
+        <div className="bg-white/85 p-2 rounded-xl border border-slate-200/80 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.12)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:shadow-[0_12px_20px_-6px_rgba(79,70,229,0.18)]">
+          <BrandLogo className="h-6 w-6 md:h-7 md:w-7" />
         </div>
         <h1 className="text-xl md:text-2xl font-black text-slate-900 tracking-wider uppercase">
           SPLIT<span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">WISELY</span>
