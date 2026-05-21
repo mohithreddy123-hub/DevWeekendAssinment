@@ -91,7 +91,7 @@ function App() {
       {/* Footer */}
       <footer className="w-full max-w-4xl mx-auto text-center mt-8 md:mt-12 relative z-10">
         <p className="text-[10px] sm:text-xs text-slate-400 font-semibold tracking-wider uppercase">
-          SplitWisely Tip Calculator &bull; Built By Mohith Reddy
+          SplitWisely &bull; Built By Mohith Reddy
         </p>
       </footer>
     </div>
