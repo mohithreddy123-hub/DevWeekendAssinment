@@ -30,6 +30,7 @@ export const ResultsPanel = ({ calculations, onReset, canReset }) => {
             </div>
           </div>
 
+          
           {/* Grand Total Row */}
           <div className="flex justify-between items-center">
             <div className="flex flex-col">
