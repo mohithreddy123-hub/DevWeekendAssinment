@@ -5,18 +5,17 @@ import { calculateTipAndSplit } from '../utils/calculations';
 
 export const useTipCalculator = () => {
   const [bill, setBill] = useState('');
-  const [tipPercent, setTipPercent] = useState(''); // Current active tip percent (preset or custom)
-  const [customTip, setCustomTip] = useState(''); // Custom tip percent string
+  const [tipPercent, setTipPercent] = useState(''); 
+  const [customTip, setCustomTip] = useState(''); 
   const [people, setPeople] = useState('');
   
-  // Validation errors state
   const [errors, setErrors] = useState({
     bill: '',
     tip: '',
     people: ''
   });
 
-  // Timeout references for debounced validation
+  
   const billTimeoutRef = useRef(null);
   const tipTimeoutRef = useRef(null);
   const peopleTimeoutRef = useRef(null);
@@ -27,12 +26,12 @@ export const useTipCalculator = () => {
     if (peopleTimeoutRef.current) clearTimeout(peopleTimeoutRef.current);
   };
 
-  // Clean up timeouts on unmount
+  
   useEffect(() => {
     return () => clearTimeouts();
   }, []);
 
-  // Handle bill amount change
+  
   const handleBillChange = (value) => {
     const sanitized = sanitizeInputString(value);
     setBill(sanitized);
@@ -55,17 +54,16 @@ export const useTipCalculator = () => {
     setErrors((prev) => ({ ...prev, bill: validation.message }));
   };
 
-  // Handle preset tip selection
   const handlePresetTip = (percent) => {
     if (tipTimeoutRef.current) clearTimeout(tipTimeoutRef.current);
     setCustomTip(''); // Clear custom field
     setTipPercent(percent.toString());
     
-    // Clear any previous tip error
+    
     setErrors((prev) => ({ ...prev, tip: '' }));
   };
 
-  // Handle custom tip percent change
+  
   const handleCustomTipChange = (value) => {
     const sanitized = sanitizeInputString(value);
     setCustomTip(sanitized);
@@ -89,9 +87,9 @@ export const useTipCalculator = () => {
     setErrors((prev) => ({ ...prev, tip: validation.message }));
   };
 
-  // Handle number of people change
+  
   const handlePeopleChange = (value) => {
-    // Allow digits, one decimal point, and a leading minus sign temporarily while typing
+    
     const hasMinus = value.startsWith('-');
     let cleaned = value.replace(/[^0-9.]/g, '');
     const parts = cleaned.split('.');
@@ -121,7 +119,7 @@ export const useTipCalculator = () => {
     setErrors((prev) => ({ ...prev, people: validation.message }));
   };
 
-  // Reset all states
+  
   const handleReset = () => {
     clearTimeouts();
     setBill('');
@@ -134,13 +132,11 @@ export const useTipCalculator = () => {
       people: ''
     });
   };
-
-  // Real-time calculation derived state
   const calculations = useMemo(() => {
     return calculateTipAndSplit(bill, tipPercent, people);
   }, [bill, tipPercent, people]);
 
-  // Reset button is active if any inputs or errors exist
+  
   const canReset = useMemo(() => {
     return !!(
       bill ||

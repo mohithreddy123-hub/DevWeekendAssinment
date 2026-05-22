@@ -34,12 +34,18 @@ export const AnimatedNumber = ({ value, format }) => {
       const currentValue = startValue + (endValue - startValue) * easeProgress;
       setDisplayValue(currentValue);
 
-      if (progress < 1) {
-        animationFrameRef.current = requestAnimationFrame(animate);
-      } else {
-        previousValueRef.current = endValue;
-      }
-    };
+    //   if (progress < 1) {
+    //     animationFrameRef.current = requestAnimationFrame(animate);
+    //   } else {
+    //     previousValueRef.current = endValue;
+    //   }
+    // };
+        if (progress < 1) {
+          animationFrameRef.current = requestAnimationFrame(animate);
+        } else {
+          previousValueRef.current = endValue;
+        }
+      };
 
     if (animationFrameRef.current) {
       cancelAnimationFrame(animationFrameRef.current);
