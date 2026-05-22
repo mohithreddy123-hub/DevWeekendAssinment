@@ -29,60 +29,51 @@ npm run build
 
 ## 2. Stack & Design Choices
 
-### React + Vite Selection
-*   **Vite:** Selected over legacy setups (like Create React App) because of its native ESM-based Hot Module Replacement (HMR). Cold server start and module transformations are nearly instantaneous, while Vite's Rollup configuration generates heavily optimized chunk splits for production.
-*   **React 19:** Utilized functional components and standard hooks. React's unidirectional data flow allows us to hoist state and use `useMemo` for derived states, ensuring the UI remains highly performant and syncs in real-time without external state manager overhead.
+*   I decided to go with React with Vite because it’s the front-end framework I am most comfortable with and Vite provides for a very fast development experience. I used Tailwind CSS because it was helpful for me to build the UI faster and maintain responsive styling easily.
 
-### CSS Choice: Tailwind CSS v4
-*   We adopted the brand-new **Tailwind CSS v4** featuring the `@tailwindcss/vite` compiler. Rather than relying on separate PostCSS wrappers, Tailwind v4 is integrated directly inside the Vite compilation pipeline, reducing build times. Config variables are defined natively inside `index.css` using the `@theme` directive, maintaining standard CSS conventions.
+*   As for the design, I wanted it to feel like a modern product UI and not a normal calculator. So I went for a clean glassmorphism style with soft gradients and spacing to make the interface feel premium but still easy to use.
 
-### Aesthetic Direction
-*   **Premium Dark UI:** Designed a sleek SaaS dashboard aesthetic rather than a typical basic calculator. A neutral dark slate base (`#030712`) combined with glowing gradient radial backdrops, neon accents (indigo/emerald), and a semi-transparent glassmorphic container provides a high-fidelity visual experience.
-*   **Layout Shift Prevention:** Empty error message elements often cause jarring visual shifts. To resolve this, validation errors are placed in fixed-height animation tracks, preventing the input forms or results card from jumping up and down when validation is triggered or cleared.
+*   One design decision I made was to always show the results panel, so users can see changes as they type, without a calculate button. Another option was to not have the UI jump when errors are present or removed, by reserving space for error messages during validation.
 
 ---
 
-## 3. Responsive & Accessibility (A11y)
+## 3. Responsive & Accessibility
 
-### Responsive Grid
-*   **Flex-to-Grid Structure:** On small Viewports (under `768px`), the layout stacks vertically (`grid-cols-1`) so inputs and outcomes fit cleanly. On larger layouts, it transitions into an even `grid-cols-2` with equal height matching, making the results panel sticky and prominent.
-*   **Virtual Keyboards:** Inputs are customized with `inputmode="decimal"` and `inputmode="numeric"` along with patterns (`[0-9.]*` and `[0-9]*`) to ensure mobile device keyboards automatically display numeric dialers, enhancing touch accessibility.
+*    The app is fully responsive. On smaller screens like mobile devices, the layout stacks vertically so the inputs and results are easy to read and use. On larger screens, the app switches to a two-column layout to use the space better and keep the results visible.
 
-### Accessibility Design
-*   **Keyboard Navigation:** All interactive elements (input fields, preset buttons, reset trigger) are fully keyboard-navigable via standard `Tab` sequences. Presets are semantically valid `<button>` tags rather than dummy styled `div` components.
-*   **Focus Outline Rings:** Focus outlines are not disabled; they are replaced with custom focus rings (`focus:ring-2 focus:ring-indigo-500/20 focus:ring-offset-slate-950`) to keep focus visible for keyboard users while maintaining the dark styling.
-*   **Screen Readers:** Added explicit `aria-invalid` and `aria-describedby` elements dynamically linked to validation error lines, notifying assistive technologies of form state updates. Semantic landmarks like `<main>`, `<section>`, and `<header>` are used.
+*    For mobile users, I used numeric input modes so phones automatically open the number keyboard when entering bill amounts, tip percentages, or people count.
+
+*    For accessibility, all inputs and buttons are keyboard accessible using the Tab key, and I kept visible focus states so users can clearly see which field is active. I also added inline validation messages with `aria-invalid` and `aria-describedby` support to improve screen reader accessibility.
 
 ---
 
 ## 4. AI Usage
 
-*   **Scaffolding & Templates:** Used AI to bootstrap Vite project scaffolding commands, build the initial folder structures, and configure standard utilities.
-*   **Component Modularity:** AI assisted in drafting structure separations for presentational components, helping us isolate validation constraints (`validators.js`) and mathematical computations (`calculations.js`) into pure helper functions.
-*   **UI Iteration:** Iterated with the AI to refine input event handlers, ensuring the sanitizer handles duplicate decimal points or pasted text without causing rendering bugs.
+*    I used AI mainly to speed up development and structure some parts faster, especially for validation logic, component structure, and UI improvements. It helped me reduce repetitive coding work and iterate on the design more quickly.
+
+*    I did not use AI blindly. I changed multiple parts of the generated code based on how I wanted the user experience and interactions to behave. For example, the initial validation logic showed errors too aggressively while typing, so I modified it to make the validation smoother and prevent flickering or layout shifts.
+
+*    I mainly used AI as a coding partner to improve productivity and save time, while still making the final implementation decisions and changes myself.
 
 ---
 
-## 5. Honest Gap & Future Enhancements
+## 5. Honest Gap & Future Improvements
 
-### Current Limitation: Fixed Currency
-*   The application currently locks the input and outputs to **INR (₹)**. While ideal for the target requirement, a fully production-ready international app would support multiple currencies (USD, EUR, GBP) and dynamic live exchange rate conversion.
+### Current Limitation
+
+*    Right now, the app only supports INR (₹). It works well for the current requirement, but a more complete version could support multiple currencies like USD, EUR, and GBP.
 
 ### Future Improvements
-1.  **Multi-Currency Selector:** A dropdown menu allowing users to swap currencies, automatically adjusting formatting symbols.
-2.  **Custom Split Splitting:** Currently, the bill is split equally among all people. A future release would allow users to assign unequal shares to individual guests (e.g., guest A ordered ₹800, guest B ordered ₹400).
-3.  **Local Storage Cache:** Save calculations locally or share the split calculation details via an exportable URL query parameter or QR code.
+
+- Add a currency selector so users can switch between different currencies easily.
+- Add custom bill splitting instead of equal splitting, so different people can pay different amounts.
+- Save previous calculations using local storage.
+- Add a share option using a link or QR code for easier bill sharing.
 
 ---
 
-## 6. Rounding Policy Defense
+## 6. Rounding Policy
 
-### Selected Policy: Round to Nearest (Half-Even / Bankers' Rounding)
-*   **Implementation:** The application utilizes standard `Intl.NumberFormat('en-IN')` configuration, which formats values to two decimal places (paise) and uses half-even rounding (IEEE 754 standard).
-*   **Defense of Choice:**
-    1.  **Mathematical Unbiasedness:** Half-even rounding (also known as Bankers' Rounding) rounds to the nearest even number when the digit to be rounded is exactly 5. This prevents the cumulative upward rounding bias that occurs with standard "always round up" or "always round half up" policies.
-    2.  **User Expectation:** Casual bill splitting is a collaborative process. If a bill of ₹10.00 is split among 3 people, it is mathematically ₹3.333... per person. Our rounding policy formats this to **₹3.33** per person. While this leaves a negligible remainder of ₹0.01 underpaid to the bill payer, it represents the most natural, readable, and expected human split.
-    3.  **Alternative Comparison:**
-        *   *Round Up (Ceil):* If we rounded up (resulting in ₹3.34 per person), the total collected would be ₹10.02, causing a minor overpayment. Users are often annoyed when a calculator claims they owe more than the mathematically calculated share.
-        *   *Remainder Distribution:* Distributing the remainder across people (e.g. person 1 pays ₹3.34, persons 2 and 3 pay ₹3.33) is highly complex to communicate in a simple, clean single-page outcome card, creating unnecessary visual noise for a negligible ₹0.01 difference.
-    4.  **Graceful Presentation:** By rounding to 2 decimal places using `Intl.NumberFormat`, the app ensures consistent, clean, and professional monetary displays across all inputs without visual glitches.
+*    I used standard rounding to 2 decimal places for all currency values using JavaScript number formatting. Since currency values are usually shown with 2 decimal places, this felt like the most natural and user-friendly option for a tip calculator.
+
+*    For example, if the per-person amount becomes ₹3.3333, the app displays it as ₹3.33.
