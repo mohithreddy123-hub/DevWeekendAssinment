@@ -19,7 +19,6 @@ export const BillInput = ({ value, onChange, onBlur, error }) => {
             aria-hidden="true"
           />
         </div>
-        
         <input
           id="bill-input"
           type="text"
